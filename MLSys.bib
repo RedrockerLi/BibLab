@@ -1,0 +1,27 @@
+% Encoding: UTF-8
+
+@InProceedings{NIPS2012_6aca9700,
+  author    = {Dean, Jeffrey and Corrado, Greg and Monga, Rajat and Chen, Kai and Devin, Matthieu and Mao, Mark and Ranzato, Marc\textquotesingle aurelio and Senior, Andrew and Tucker, Paul and Yang, Ke and Le, Quoc and Ng, Andrew},
+  title     = {Large Scale Distributed Deep Networks},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year      = {2012},
+  editor    = {F. Pereira and C.J. Burges and L. Bottou and K.Q. Weinberger},
+  volume    = {25},
+  publisher = {Curran Associates, Inc.},
+  url       = {https://proceedings.neurips.cc/paper_files/paper/2012/file/6aca97005c68f1206823815f66102863-Paper.pdf},
+  abstract  = {最近在无监督特征学习和深度学习领域的研究表明，能够训练大规模的模型可以显著提升性能。本文讨论了使用数万个CPU核心训练拥有数十亿参数的深度网络问题。我们开发了一种名为DistBelief的软件框架，可以利用拥有数千台机器的计算集群来训练大规模模型。在这个框架下，我们开发了两种大规模分布式训练算法：(i) Downpour SGD，一种支持大量模型副本的异步随机梯度下降（SGD）算法，(ii) Sandblaster，一个支持多种分布式批量优化方法的框架，其中包括L-BFGS的分布式实现。Downpour SGD和Sandblaster L-BFGS都能提高深度网络训练的规模和速度。我们成功地使用该系统训练了一个比以往文献中报告的网络大30倍的深度网络，并在ImageNet（一个包含1600万张图像和21,000个类别的视觉目标识别任务）上达到了最先进的性能。我们还展示了这些相同的技术显著加速了一个较小规模的深度网络在商业语音识别服务中的训练。虽然我们重点报告了这些方法在训练大规模神经网络中的应用及其性能，但这些基础算法也适用于任何基于梯度的机器学习算法。},
+  review    = {问题背景：2012年显存小，没有NVLink,内存和显存频繁交换数据性能低下。
+
+成果：DistBelief 软件框架，支持模型并行，数据并行，使用CPU运算
+
+创新点：
+
+- Downpour SGD：异步随机梯度下降，无锁，弱一致性
+- Sandblaster L-BFGS：分布式 L-BFGS，结合了数据并行性和模型并行性
+
+Downpour SGD实现：训练数据分成多个子集，并在每个子集上运行一个模型副本。各个模型副本通过一个中心化的参数服务器进行更新通信，参数服务器负责保持所有模型参数的当前状态，并将这些参数分布在多台机器上。（模型副本指有全部参数的模型？和参数分布在多台机器上矛盾？如果没有全部参数，怎么计算梯度？）
+
+Sandblaster L-BFGS实现：分布式参数存储和操作，协调器进程无法直接访问模型参数，但可以发出来自一小组操作（例如点积、缩放、按系数加法、乘法）的命令，由每个参数服务器分片独立执行，结果被存储在同一分片上。数据被分发到多台机器，每台机器负责计算特定数据子集的梯度。计算出的梯度会返回到中央服务器。使用负载均衡方案：协调器为每个 N 个模型副本分配一小部分工作，这部分工作远小于批次总大小的 1/N，并在副本空闲时为其分配新的工作。通过这种方式，速度较快的模型副本会做更多的工作，而较慢的副本则做较少的工作。},
+}
+
+@Comment{jabref-meta: databaseType:biblatex;}
