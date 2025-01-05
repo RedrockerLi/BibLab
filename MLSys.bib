@@ -37,4 +37,18 @@
   url           = {https://arxiv.org/abs/2104.04473},
 }
 
+@Misc{korthikanti2022reducingactivationrecomputationlarge,
+  author        = {Vijay Korthikanti and Jared Casper and Sangkug Lym and Lawrence McAfee and Michael Andersch and Mohammad Shoeybi and Bryan Catanzaro},
+  title         = {Reducing Activation Recomputation in Large Transformer Models},
+  year          = {2022},
+  archiveprefix = {arXiv},
+  eprint        = {2205.05198},
+  keywords      = {rank5},
+  primaryclass  = {cs.LG},
+  review        = {核心思想：找到计算量小而内存消耗大的部分，反向传播时重新计算。
+
+序列并行（引入是为了降低层归一化以及注意力和MLP块后的dropout操作的内存占用$10 ->\frac{10}{t}$）：reduce-scatter+all-gather,通信开销和张量并行规约（a ring all-reduce）相同。},
+  url           = {https://arxiv.org/abs/2205.05198},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
